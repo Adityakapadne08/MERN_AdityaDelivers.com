@@ -1,13 +1,13 @@
 import express,{Request,Response} from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-//import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 //import myUserRoute from "./routes/MyUserRoutes"
 
-// mongoose
-// .connect(process.env.MONGODB_CONNECTION_STRING as string)
-// .then(()=>
-// console.log('connected to Database'));
+mongoose
+.connect(process.env.MONGODB_CONNECTION_STRING as string)
+.then(()=>
+console.log('connected to Database'));
 
 const app = express();
 app.use(express.json())
