@@ -1,5 +1,6 @@
 import express from "express";
 import MyUserController from "../controllers/MyUserController";
+import { jwtCheck } from "../middleware/auth";
 
 
 const router = express.Router();
@@ -9,7 +10,7 @@ router.get("/", MyUserController.createCurrentUser)
 //if we get a req to a backened and a post reqst this handler gets called and pass the rqst on  MyUserController.createCurrentUser
 
 //here in createCurrentUser as it reaches the rqst here it gets to the controller going thrgh all conditions .
-router.post("/", MyUserController.createCurrentUser);
+router.post("/",jwtCheck, MyUserController.createCurrentUser);
 router.put(
   "/",
   MyUserController.createCurrentUser
