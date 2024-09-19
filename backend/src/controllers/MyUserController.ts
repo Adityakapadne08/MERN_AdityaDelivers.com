@@ -1,6 +1,22 @@
 import { Request, Response } from "express";
 import User from "../models/user";
 
+const getCurrentUser = async (req: Request, res: Response) => {
+
+  try{
+const currentUser = await User.findOne({_id: req.userId});
+if(!currentUser){
+  return res.status(404).json({message:"user not found"});
+}
+res.json(currentUser);
+  }catch (error) {
+    //always provide the error object,
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+}
+
+
 const createCurrentUser = async (req: Request, res: Response) => {
   //1) check if user exists
   //2) create the user if it dosent exist
@@ -50,6 +66,7 @@ res.send(user);
   }
 }
 export default {
+  getCurrentUser,
   createCurrentUser,
   updateCurrentUser,
 };
