@@ -13,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
+import { User } from "@/types";
+import { useEffect } from "react";
 
 
 //property that our form will have 
@@ -28,14 +30,19 @@ export type UserFormData = z.infer<typeof formSchema>;
 
 //using actual form component.
 type Props = {
+  currentUser: User;
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
 };
-const UserProfileForm = ({ onSave, isLoading }: Props) => {
+const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
   const form = useForm<UserFormData>({
     //resolver- to handle validation and similar stuff .
     resolver: zodResolver(formSchema),
+    defaultValues: currentUser,
   });
+  useEffect (()=>{
+form.reset(currentUser);
+  },[currentUser,form])
   return (
     //Form is from shadcn form and form is from above line of codes and passig all of it in shadcn Form.
     <Form {...form}>
