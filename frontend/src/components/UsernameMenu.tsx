@@ -19,6 +19,11 @@ const UsernameMenu = () => {
         {user?.email}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
+      <DropdownMenuItem>
+          <Link to="/manage-restaurant" className="font-bold hover:text-orange-500">
+        Manage Restaurant
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>
           <Link to="/user-profile" className="font-bold hover:text-orange-500">
             User Profile
@@ -26,7 +31,10 @@ const UsernameMenu = () => {
         </DropdownMenuItem>
         <Separator />
         <DropdownMenuItem>
-          <Button onClick={()=>logout()} className="flex flex-1 font-bold bg-orange-500">
+          <Button
+            onClick={() => logout()}
+            className="flex flex-1 font-bold bg-orange-500"
+          >
             Log Out
           </Button>
         </DropdownMenuItem>
