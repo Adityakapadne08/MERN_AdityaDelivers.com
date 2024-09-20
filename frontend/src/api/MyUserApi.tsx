@@ -1,6 +1,5 @@
-// have all the hooks that we r going to need to interact with myuserapi api
 import { User } from "@/types";
-import { useAuth0} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
@@ -9,39 +8,50 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const useGetMyUser = () => {
   const { getAccessTokenSilently } = useAuth0();
 
-  const getMyUserRequest = async () : Promise<User>=> {
+  const getMyUserRequest = async (): Promise<User> => {
+    try {
     const accessToken = await getAccessTokenSilently();
-
-    const response = await fetch(`${API_BASE_URL}/api.my.user`, {
+    console.log("Access Token:", accessToken);
+    const response = await fetch(`${API_BASE_URL}/api/my/user`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
     });
+
     if (!response.ok) {
-      throw new Error("Failed to fetch user");
+      const errorBody = await response.text(); // Capture the error response body
+    console.error("Error fetching user:", response.status, errorBody); // Log details for debugging
+    throw new Error(`Failed to fetch user: ${errorBody}`); // Use detailed error
     }
+
     return response.json();
+  } catch (err) {
+    console.error("Error retrieving access token:", err);
+    throw new Error("Authentication error: Unable to retrieve access token");
+  }
   };
+
   const {
     data: currentUser,
     isLoading,
     error,
   } = useQuery("fetchCurrentUser", getMyUserRequest);
-  if(error){
+
+  if (error) {
     toast.error(error.toString());
   }
-  return {currentUser, isLoading};
+
+  return { currentUser, isLoading };
 };
 
-//type for user rqst which ll describe all the properties need in the body .
 type CreateUserRequest = {
   auth0Id: string;
   email: string;
 };
+
 export const useCreateMyUser = () => {
-  //getting func that lets us fetch the user token using useauth0 hook
   const { getAccessTokenSilently } = useAuth0();
 
   const createMyUserRequest = async (user: CreateUserRequest) => {
@@ -49,22 +59,22 @@ export const useCreateMyUser = () => {
     const response = await fetch(`${API_BASE_URL}/api/my/user`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
+
     if (!response.ok) {
-      throw new Error("Failed to fetch user");
+      throw new Error("Failed to create user");
     }
-    return response.json();
   };
 
   const {
     mutateAsync: createUser,
     isLoading,
-    isSuccess,
     isError,
+    isSuccess,
   } = useMutation(createMyUserRequest);
 
   return {
@@ -74,6 +84,7 @@ export const useCreateMyUser = () => {
     isSuccess,
   };
 };
+
 type UpdateMyUserRequest = {
   name: string;
   addressLine1: string;
@@ -95,11 +106,14 @@ export const useUpdateMyUser = () => {
       },
       body: JSON.stringify(formData),
     });
+
     if (!response.ok) {
       throw new Error("Failed to update user");
     }
-    return response.json(); // Parse the response as JSON if successful
+
+    return response.json();
   };
+
   const {
     mutateAsync: updateUser,
     isLoading,
@@ -109,8 +123,9 @@ export const useUpdateMyUser = () => {
   } = useMutation(updateMyUserRequest);
 
   if (isSuccess) {
-    toast.success("User profile updated");
+    toast.success("User profile updated!");
   }
+
   if (error) {
     toast.error(error.toString());
     reset();

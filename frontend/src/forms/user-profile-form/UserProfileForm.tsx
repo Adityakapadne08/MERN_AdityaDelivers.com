@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -16,42 +16,48 @@ import { Button } from "@/components/ui/button";
 import { User } from "@/types";
 import { useEffect } from "react";
 
-
-//property that our form will have 
 const formSchema = z.object({
   email: z.string().optional(),
   name: z.string().min(1, "name is required"),
-  addressLine1: z.string().min(1, "address is required"),
-  city: z.string().min(1, "city is required"),
-  country: z.string().min(1, "country is required"),
+  addressLine1: z.string().min(1, "Address Line 1 is required"),
+  city: z.string().min(1, "City is required"),
+  country: z.string().min(1, "Country is required"),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
 
-//using actual form component.
 type Props = {
   currentUser: User;
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
+  title?: string;
+  buttonText?: string;
 };
-const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
+
+const UserProfileForm = ({
+  onSave,
+  isLoading,
+  currentUser,
+  title = "User Profile",
+  buttonText = "Submit",
+}: Props) => {
   const form = useForm<UserFormData>({
-    //resolver- to handle validation and similar stuff .
     resolver: zodResolver(formSchema),
     defaultValues: currentUser,
   });
-  useEffect (()=>{
-form.reset(currentUser);
-  },[currentUser,form])
+
+  useEffect(() => {
+    form.reset(currentUser);
+  }, [currentUser, form]);
+
   return (
-    //Form is from shadcn form and form is from above line of codes and passig all of it in shadcn Form.
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSave)}
         className="space-y-4 bg-gray-50 rounded-lg md:p-10"
       >
         <div>
-          <h2 className="text-2xl font-bold">User Profile Form</h2>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -60,24 +66,25 @@ form.reset(currentUser);
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem >
+            <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field}  className="bg-white" />
+                <Input {...field} disabled className="bg-white" />
               </FormControl>
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="flex-1">
+            <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field}  className="bg-white" />
+                <Input {...field} className="bg-white" />
               </FormControl>
-              <FormMessage/>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -88,11 +95,11 @@ form.reset(currentUser);
             name="addressLine1"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormLabel>AddressLine1</FormLabel>
+                <FormLabel>Address Line 1</FormLabel>
                 <FormControl>
-                  <Input {...field}  className="bg-white" />
+                  <Input {...field} className="bg-white" />
                 </FormControl>
-                <FormMessage/>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -103,9 +110,9 @@ form.reset(currentUser);
               <FormItem className="flex-1">
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input {...field}  className="bg-white" />
+                  <Input {...field} className="bg-white" />
                 </FormControl>
-                <FormMessage/>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -116,19 +123,23 @@ form.reset(currentUser);
               <FormItem className="flex-1">
                 <FormLabel>Country</FormLabel>
                 <FormControl>
-                  <Input {...field}  className="bg-white" />
+                  <Input {...field} className="bg-white" />
                 </FormControl>
-                <FormMessage/>
+                <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        {isLoading ?  (<LoadingButton/> ) :( <Button type="submit" className="bg-orange-500">
-          Submit
-        </Button>
+        {isLoading ? (
+          <LoadingButton />
+        ) : (
+          <Button type="submit" className="bg-orange-500">
+            {buttonText}
+          </Button>
         )}
       </form>
     </Form>
   );
 };
+
 export default UserProfileForm;
