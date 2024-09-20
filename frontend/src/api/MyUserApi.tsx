@@ -82,7 +82,7 @@ export const useCreateMyUser = () => {
     isLoading,
     isError,
     isSuccess,
-  };
+  }
 };
 
 type UpdateMyUserRequest = {
