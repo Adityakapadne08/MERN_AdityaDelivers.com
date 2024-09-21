@@ -6,3 +6,6 @@ export type User = {
     city: string;
     country: string;
   };
+  export type RestaurantType= {
+    
+  }
