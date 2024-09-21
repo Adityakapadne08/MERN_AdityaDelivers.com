@@ -115,4 +115,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;  
+ export default SearchPage;  
