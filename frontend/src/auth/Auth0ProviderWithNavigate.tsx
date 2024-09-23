@@ -1,5 +1,5 @@
 
-import { Auth0Provider } from "@auth0/auth0-react";
+import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,8 +19,8 @@ type Props = {
       }
 
       
-  const onRedirectCallback = () => {
-    navigate("/auth-callback")
+  const onRedirectCallback = (appState? : AppState) => {
+    navigate(appState?. returnTo ||"/auth-callback")
     // // console.log("USER", user);
     // if(user?.sub && user?.email){
     //   createUser({auth0Id:user.sub,email:user.email});
