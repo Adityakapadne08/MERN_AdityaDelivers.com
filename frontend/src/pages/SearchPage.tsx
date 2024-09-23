@@ -4,9 +4,10 @@ import SearchBar, { SearchForm } from "@/components/SearchBar";
 import SearchResultCard from "@/components/SearchResultCard";
 import SearchResultInfo from "@/components/SearcResultInfo";
 import CuisineFilter from "@/components/CuisineFilter";
-import SortOptionDropdown from "@/components/SortOptionDropdown";
+
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import SortOptionDropdown from "@/components/SortOptionDropdown";
 
 export type SearchState = {
   searchQuery: string;
