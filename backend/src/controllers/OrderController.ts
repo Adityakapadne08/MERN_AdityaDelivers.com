@@ -36,11 +36,14 @@ type CheckoutSessionRequest = {
   restaurantId: string;
 };
 
-const stripeWebhookHandler = async (req: Request, res: Response) => {
+
+const stripeWebhookHandler 
+= async (req: Request, res: Response) => {
   let event;
 
   try {
-    const sig = req.headers["stripe-signature"];
+    const sig =
+     req.headers["stripe-signature"];
     event = STRIPE.webhooks.constructEvent(
       req.body,
       sig as string,
@@ -48,7 +51,9 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
     );
   } catch (error: any) {
     console.log(error);
-    return res.status(400).send(`Webhook error: ${error.message}`);
+    return res.status(400)
+    .send(`Webhook error:
+       ${error.message}`);
   }
 
   if (event.type === "checkout.session.completed") {
