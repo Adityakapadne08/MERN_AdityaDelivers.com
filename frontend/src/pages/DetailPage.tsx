@@ -7,6 +7,7 @@ import { Card, CardFooter } from "@/components/ui/card";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "../types";
+import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 //import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 
 
@@ -63,25 +64,25 @@ const DetailPage = () => {
     });
   };
 
-  // const removeFromCart = (cartItem: CartItem) => {
-  //   setCartItems((prevCartItems) => {
-  //     const updatedCartItems = prevCartItems.filter(
-  //       (item) => cartItem._id !== item._id
-  //     );
+  const removeFromCart = (cartItem: CartItem) => {
+    setCartItems((prevCartItems) => {
+      const updatedCartItems = prevCartItems.filter(
+        (item) => cartItem._id !== item._id
+      );
 
-  //     sessionStorage.setItem(
-  //       `cartItems-${restaurantId}`,
-  //       JSON.stringify(updatedCartItems)
-  //     );
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
 
-  //     return updatedCartItems;
-  //   });
-  // };
+      return updatedCartItems;
+    });
+  };
 
-  // const onCheckout = async (userFormData: UserFormData) => {
-  //   if (!restaurant) {
-  //     return;
-  //   }
+  const onCheckout = async (userFormData: UserFormData) => {
+    if (!restaurant) {
+      return;
+    }
 
   //   const checkoutData = {
   //     cartItems: cartItems.map((cartItem) => ({
@@ -132,7 +133,8 @@ const DetailPage = () => {
             <OrderSummary
               restaurant={restaurant}
               cartItems={cartItems}
-              removeFromCart={removeFromCart}
+              //
+               removeFromCart={removeFromCart}
             />
             <CardFooter>
               <CheckoutButton
