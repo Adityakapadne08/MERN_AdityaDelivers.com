@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "../types";
 import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 import CheckoutButton from "@/components/CheckoutButton";
+import { useCreateCheckoutSession } from "@/api/OrderApi";
 //import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 
 
@@ -80,13 +81,15 @@ const DetailPage = () => {
     });
   };
 
-  const onCheckout = async (userFormData: UserFormData) => {
+
+  const onCheckout = 
+  async (userFormData: UserFormData) => {
     if (!restaurant) {
       return;
     }
 
-    const checkoutData = {
-      cartItems: cartItems.map((cartItem) => ({
+
+    const checkoutData = {cartItems: cartItems.map((cartItem) => ({
         menuItemId: cartItem._id,
         name: cartItem.name,
         quantity: cartItem.quantity.toString(),
@@ -101,7 +104,8 @@ const DetailPage = () => {
       },
     };
 
-    const data = await createCheckoutSession(checkoutData);
+    const data = 
+    await createCheckoutSession(checkoutData);
     window.location.href = data.url;
   };
 
@@ -138,10 +142,14 @@ const DetailPage = () => {
                removeFromCart={removeFromCart}
             />
             <CardFooter>
+              
               <CheckoutButton
-                disabled={cartItems.length === 0}
-                onCheckout={onCheckout}
-                isLoading={isCheckoutLoading}
+                disabled=
+                {cartItems.length === 0}
+                onCheckout=
+                {onCheckout}
+                isLoading=
+                {isCheckoutLoading}
               /> 
             </CardFooter> 
           </Card>
