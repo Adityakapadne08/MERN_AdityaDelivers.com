@@ -19,6 +19,14 @@ const AppRoutes = () => {
           </Layout>
         }
       />
+       <Route
+        path="/detail/:restaurantId"
+        element={
+          <Layout showHero={false}>
+            <DetailPage />
+          </Layout>
+        }
+      />
       <Route
         path="/"
         element={
