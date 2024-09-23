@@ -7,15 +7,19 @@ import UserProfileForm, {
   UserFormData,
 } from "@/forms/user-profile-form/UserProfileForm";
 import { useGetMyUser } from "@/api/MyUserApi";
-import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
-type Props = {
-  onCheckout: (userFormData: UserFormData) => void;
+
+
+
+type Props = {onCheckout: (userFormData: UserFormData) => void;
   disabled: boolean;
   isLoading: boolean;
 };
 
-const CheckoutButton = ({ onCheckout, disabled, isLoading }: Props) => {
+
+const CheckoutButton = 
+({ onCheckout, disabled, isLoading }: Props) => {
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
@@ -24,7 +28,9 @@ const CheckoutButton = ({ onCheckout, disabled, isLoading }: Props) => {
 
   const { pathname } = useLocation();
 
-  const { currentUser, isLoading: isGetUserLoading } = useGetMyUser();
+  
+  const { currentUser, isLoading: isGetUserLoading } =
+   useGetMyUser();
 
   const onLogin = async () => {
     await loginWithRedirect({
@@ -42,11 +48,15 @@ const CheckoutButton = ({ onCheckout, disabled, isLoading }: Props) => {
     );
   }
 
-  if (isAuthLoading || !currentUser || isLoading) {
+
+  if 
+  (isAuthLoading || !currentUser || isLoading) {
     return <LoadingButton />;
   }
 
   return (
+
+
     <Dialog>
       <DialogTrigger asChild>
         <Button disabled={disabled} className="bg-orange-500 flex-1">
@@ -63,6 +73,7 @@ const CheckoutButton = ({ onCheckout, disabled, isLoading }: Props) => {
         />
       </DialogContent>
     </Dialog>
+
   );
 };
 
